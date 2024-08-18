@@ -7,7 +7,7 @@ import time
 def generate_custom_fft_data(num_points):
     # 周波数範囲を118MHzから138MHzに設定
     fft_freq = np.linspace(118e6, 138e6, num_points)
-    fft_power_dBm = np.random.uniform(-100, -80, num_points)  # その他の周波数帯域のノイズ
+    fft_power_dBm = np.random.uniform(-100, -94, num_points)  # その他の周波数帯域のノイズ
 
     # 130MHzに-18dBmから-20dBmで、帯域幅6kHzのキャリアを生成
     carrier_130MHz_start = 130e6 - 3e3
@@ -43,13 +43,14 @@ while True:  # 無限ループで信号を更新
 
     # 周波数ドメインのグラフを更新
     fig_freq = go.Figure()
-    fig_freq.add_trace(go.Scatter(x=fft_freq, y=fft_power_dBm, mode='lines', name='FFT Power (dBm)'))
+    #fig_freq.add_trace(go.Scatter(x=fft_freq, y=fft_power_dBm, mode='lines', name='FFT Power (dBm)'))
+    fig_freq.add_trace(go.Scatter(x=fft_freq, y=fft_power_dBm, mode='lines', name='FFT Power (dBm)',line=dict(color="yellow")))
     fig_freq.update_layout(title="無線信号のスペクトラム (周波数ドメイン, dBm)",
                            xaxis_title="周波数 (Hz)",
                            yaxis_title="振幅 (dBm)",
                            xaxis=dict(range=[min(fft_freq), max(fft_freq)]),
-                           yaxis=dict(range=[-110, -10]))  # Y軸スケールの設定
-
+                           yaxis=dict(range=[-110, -10]), # Y軸スケールの設定
+                           plot_bgcolor="black") # 背景色黒
     # グラフを再描画
     placeholder_freq.plotly_chart(fig_freq)
 
